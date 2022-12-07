@@ -129,5 +129,7 @@ dmypy.json
 .pyre/
 media/*
 static/*
+.idea
 
+http/
 Backend/settings.py
