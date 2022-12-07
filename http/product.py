@@ -8,11 +8,12 @@ data = {
     'type' : 'dona',
     'count' : 15,
     'entry_price' : 10000,
+    'price' : 10000, # new | o'zim qo'ygan narx
     'percent' : 50,
-    'enterprise' : 'uz monkey',
+    'enterprise' : 'uz new star',
     'barcode' : 45789865,
-    'selling_price' : 15000
-
+    'selling_price' : 15000,
+    'category' : '1-kategoriya' # new | kategoria
 }
 
 files = {

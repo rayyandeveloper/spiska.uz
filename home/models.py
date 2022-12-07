@@ -61,10 +61,11 @@ class Product(models.Model):
     currency = models.CharField(choices=(
             ('1', 'so\'m'),
             ('2', 'dollar'),
-        ),max_length=200
+        ), max_length=200
     )
 
     entry_price = models.IntegerField()
+    price = models.IntegerField(default=0)
     percent = models.IntegerField()
     selling_price = models.IntegerField()
     company = models.CharField(max_length=500)
@@ -98,8 +99,6 @@ class Report(models.Model):
         return self.product.name
 
 
-
-
 class Spiska(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
@@ -115,4 +114,11 @@ class Spiska(models.Model):
         ), max_length=200
     )
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.name
 

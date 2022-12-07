@@ -213,6 +213,7 @@ class ProductAPIView(APIView):
                 count=rd['count'],
                 company=rd['enterprise'],
                 entry_price=rd['entry_price'],
+                price=rd['price'],
                 percent=rd['percent'],
                 selling_price=rd['selling_price'],
                 barcode=rd['barcode']

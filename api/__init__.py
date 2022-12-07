@@ -14,7 +14,7 @@ def user_serializer(o: User):
 
 
 def product_serializer(o: Product):
-    return {'id': o.id, 'shop_id': o.shop.id, 'images': [o.image1.url, o.image2.url if o.image2 else None, o.image3.url if o.image3 else None, ], 'name': o.name, 'description': o.description, 'count': o.count, 'money_type': o.currency, 'type': o.type, 'entry_price': o.entry_price, 'percent': o.percent, 'selling_price': o.selling_price, 'company': o.company, 'likes': [user_serializer(i) for i in o.likes.all()], "views": [user_serializer(i) for i in o.seens.all()]}
+    return {'id': o.id, 'shop_id': o.shop.id, 'images': [o.image1.url, o.image2.url if o.image2 else None, o.image3.url if o.image3 else None, ], 'name': o.name, 'description': o.description, 'count': o.count, 'money_type': o.currency, 'type': o.type, 'entry_price': o.entry_price, 'price': o.price, 'percent': o.percent, 'selling_price': o.selling_price, 'company': o.company, 'likes': [user_serializer(i) for i in o.likes.all()], "views": [user_serializer(i) for i in o.seens.all()]}
 
 
 def shop_serializer(shop: Shop):
