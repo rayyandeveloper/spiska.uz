@@ -3,10 +3,11 @@ from rest_framework.views import APIView
 from api import *
 from django.shortcuts import get_object_or_404
 from home.models import *
-from django.db.models import Q
+from django.db.models import Q 
+
+import random as r 
 
 
-import random as r
 
 
 class ShopAPIView(APIView):
@@ -18,7 +19,7 @@ class ShopAPIView(APIView):
 
         pk = request.GET.get('id')
         userId = request.GET.get('user-id')
-
+        
         q = request.GET.get('q')
 
 
@@ -43,9 +44,9 @@ class ShopAPIView(APIView):
         elif q:
             response['data'].append(shop_serializer(shop) for shop in Shop.objects.filter(Q(name__icontains=q) | Q(bio__icontains=q)))
 
-        else:
+        else: 
             response['data'] = [shop_serializer(obj) for obj in Shop.objects.all()]
-
+            
 
         return Response(response)
 
@@ -65,7 +66,7 @@ class ShopAPIView(APIView):
             viloyat = Region.objects.get(pk=pk1)
             tuman = District.objects.get(pk=pk2)
 
-
+   
 
             lat = rd['lat']
             lon = rd['lon']
@@ -148,7 +149,7 @@ class ProductAPIView(APIView):
             'status': 200,
             'data': []
         }
-
+        
         pk = request.GET.get('id')
         q = request.GET.get('q')
         district = request.GET.get('district')
@@ -171,13 +172,13 @@ class ProductAPIView(APIView):
 
         elif region:
             response['data'] = [product_serializer(obj) for obj in Product.objects.filter(shop__region__id=region)]
-
+            
         elif region and district:
             response['data'] = [product_serializer(obj) for obj in Product.objects.filter(Q(shop__region__id=region) | Q(shop__district__id=region))]
-
-        else:
+            
+        else: 
             response['data'] = [product_serializer(obj) for obj in Product.objects.all()]
-
+            
 
         return Response(response)
 
@@ -199,7 +200,7 @@ class ProductAPIView(APIView):
 
             shop = Shop.objects.get(pk=rd['shop_id'])
             print('Shop currrensy',shop.currency)
-
+            
             new_product = Product.objects.create(
                 shop=shop,
                 image1=request.FILES['image1'],
@@ -281,7 +282,7 @@ class ProductAPIView(APIView):
             response['status'] = 404
         return Response(response)
 
-
+        
 class UserAPIView(APIView):
     def get(self, request):
         pk = request.GET.get('id')
@@ -291,7 +292,7 @@ class UserAPIView(APIView):
             'status': 200,
             'data': []
         }
-
+        
         if pk:
             try:
                 user = User.objects.get(pk=pk)
@@ -312,7 +313,7 @@ class UserAPIView(APIView):
                 print('User phone get failed')
                 response['status'] = 400
 
-        else:
+        else: 
             try:
                 response['data'] = [user_serializer(user) for user in User.objects.all()]
             except Exception as e:
@@ -390,15 +391,15 @@ class UserAPIView(APIView):
 class PromocodeAPIView(APIView):
     def get(self, request):
         shop_id = request.GET.get('shop-id')
-
+        
         response = {
             'status' : 200,
             'data' : []
         }
-
+        
         if shop_id:
             response['data'] = [{'percent' : obj.percent, 'code' : obj.code, 'products' : [product_serializer(o) for o in obj.products.all()]} for obj in Promocode.objects.filter(shop__id=shop_id)]
-
+        
         return Response(response)
 
     def post(self, request):
@@ -409,12 +410,12 @@ class PromocodeAPIView(APIView):
             shop = Shop.objects.get(pk=request.data.get('shop-id'))
             percent = request.data.get('percent')
 
-
+            
             code = f'{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}'
-
+            
             while check_promocode(code):
                 code = f'{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}'
-
+            
             new_promocode = Promocode.objects.create(
                 shop=shop,
                 percent=percent,
@@ -427,9 +428,9 @@ class PromocodeAPIView(APIView):
         except Exception as e:
             print(e)
             response['status'] = 400
-
+            
         return Response(response)
-
+            
     def delete(self, request):
         pk = request.GET.get('id', None)
         print(pk)

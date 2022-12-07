@@ -1,6 +1,6 @@
 """
 Django settings for Backend project.
-
+ 
 Based on 'django-admin startproject' using Django 2.1.2.
 
 For more information on this file, see
@@ -23,13 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'abd085fe-4257-4fda-8b57-aeda0d0c7aa9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
 INSTALLED_APPS = [
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     'home',
     'rest_framework',
     'accounts',
-
     ]
 
 # Middleware framework
@@ -128,7 +128,7 @@ if DEBUG:
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-    MEDIA_ROOT = '/home/spiska/Backend/media/'
+    MEDIA_ROOT = '/home/spiska/Bacend/media/'
 
 
 
