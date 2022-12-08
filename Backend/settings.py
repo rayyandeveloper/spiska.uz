@@ -129,7 +129,4 @@ else:
 
     MEDIA_ROOT = '/home/spiska/Backend/media/'
 
-
-
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

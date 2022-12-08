@@ -95,9 +95,15 @@ class ShopAPIView(APIView):
                 host.diamond = host.diamond - 400
                 host.save()
 
+                for i in range(1, 16, 1):
+                    Category.objects.create(
+                        shop=new_shop,
+                        name=f"{i}-kategoriya"
+                    )
+
                 response['status'] = 200
         except Exception as e:
-            print('Shop create error, ',e)
+            print('Shop create error, ', e)
 
         return Response(response)
 
