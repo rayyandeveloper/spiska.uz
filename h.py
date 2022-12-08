@@ -3,7 +3,7 @@ sys.dont_write_bytecode = True
 
 # Django specific settings
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Backend.settings')
 import django
 django.setup()
 
