@@ -1,6 +1,6 @@
 """
 Django settings for Backend project.
- 
+
 Based on 'django-admin startproject' using Django 2.1.2.
 
 For more information on this file, see
@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'abd085fe-4257-4fda-8b57-aeda0d0c7aa9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application references
 # https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-INSTALLED_APPS
@@ -127,6 +127,10 @@ if DEBUG:
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+<<<<<<< HEAD
+    MEDIA_ROOT = '/home/spiska/spiska.uz/media/'
+=======
     MEDIA_ROOT = '/home/spiska/Backend/media/'
+>>>>>>> 369fdb6c59b5cb76e50c74e477c57530c470e992
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
