@@ -124,7 +124,13 @@ if DEBUG:
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     MEDIA_ROOT = '/home/spiska/spiska.uz/media/'
+<<<<<<< HEAD
 
 
+=======
+=======
+    MEDIA_ROOT = '/home/spiska/Backend/media/'
+>>>>>>> 369fdb6c59b5cb76e50c74e477c57530c470e992
+>>>>>>> dad32a447ac8577976592a28d11794a19d6fab39
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
