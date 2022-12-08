@@ -120,6 +120,6 @@ class Category(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.name
+        return self.shop.name
 
 
