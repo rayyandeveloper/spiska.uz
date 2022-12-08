@@ -64,7 +64,7 @@ class Product(models.Model):
         ), max_length=200
     )
 
-    entry_price = models.IntegerField()
+    entry_price = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     percent = models.IntegerField()
     selling_price = models.IntegerField()
@@ -121,4 +121,5 @@ class Category(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
 
