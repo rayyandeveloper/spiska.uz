@@ -214,6 +214,7 @@ class ProductAPIView(APIView):
                 image3=request.FILES.get('image3', None),
                 description=rd['description'],
                 name=rd['name'],
+                category=Category.objects.get(name=rd['category'], shop=shop),
                 type=type[rd['type']],
                 currency=currency[shop.currency],
                 count=rd['count'],

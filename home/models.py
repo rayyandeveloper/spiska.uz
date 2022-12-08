@@ -42,6 +42,15 @@ class Shop(models.Model):
     def ret_hos_fir(self):
         return self.host.first_name
 
+class Category(models.Model):
+    name = models.CharField(max_length=300)
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.shop.name
+
+
+
 class Product(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
 
@@ -52,6 +61,9 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=2000)
     count = models.IntegerField()
+
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
     type = models.CharField(choices=(
             ('1', 'dona'),
             ('2', 'litr'),
@@ -114,12 +126,5 @@ class Spiska(models.Model):
         ), max_length=200
     )
 
-
-class Category(models.Model):
-    name = models.CharField(max_length=300)
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-
-    def __str__(self) -> str:
-        return self.shop.name
 
 
