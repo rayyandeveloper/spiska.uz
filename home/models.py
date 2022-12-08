@@ -116,7 +116,7 @@ class Spiska(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=300)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
