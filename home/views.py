@@ -14,7 +14,7 @@ def homepage(request):
         for i in data:
             obj = Region.objects.create(name=i['name'])
             for x in i['districts']:
-                Region.objects.create(name=x['name'], region=obj)
+                District.objects.create(name=x['name'], region=obj)
 
         return Response({'status': 200})
 
