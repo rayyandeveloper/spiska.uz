@@ -132,3 +132,4 @@ static/*
 .idea/
 migrations/*
 http/
+settings.py
