@@ -140,7 +140,8 @@ def geo(request):
         'status': 200,
         'data': []
     }
-
+    user_id = request.GET.get('user-id')
+    
     lat = request.GET.get('lat')
     long = request.GET.get('long')
 
