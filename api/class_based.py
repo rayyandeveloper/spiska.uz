@@ -290,7 +290,135 @@ class ProductAPIView(APIView):
             response['status'] = 404
         return Response(response)
 
+
+class EProductAPIView(APIView):
+    def get(self, request):
+        response = {
+            'status': 200,
+            'data': []
+        }
         
+        pk = request.GET.get('id')
+        q = request.GET.get('q')
+        district = request.GET.get('district')
+        region = request.GET.get('region')
+        shop_id = request.GET.get('shop-id')
+
+        if pk:
+            try:
+                obj = EProduct.objects.get(pk=pk)
+
+                response['data'] = [eproduct_serializer(obj)]
+
+            except Product.DoesNotExist:
+                response['status'] = 400
+        elif shop_id:
+            response['data'] = [eproduct_serializer(obj) for obj in EProduct.objects.filter(shop__id=shop_id)]
+
+        elif q:
+            response['data'] = [eproduct_serializer(obj) for obj in EProduct.objects.filter(Q(name__icontains=q) | Q(description__icontains=q) | Q(company__icontains=q))]
+
+        elif region:
+            response['data'] = [eproduct_serializer(obj) for obj in EProduct.objects.filter(shop__region__id=region)]
+            
+        elif region and district:
+            response['data'] = [eproduct_serializer(obj) for obj in EProduct.objects.filter(Q(shop__region__id=region) | Q(shop__district__id=region))]
+            
+        else: 
+            response['data'] = [eproduct_serializer(obj) for obj in EProduct.objects.all()]
+            
+
+        return Response(response)
+
+    def post(self, request):
+        response = {
+            'status': 200,
+        }
+
+        type = {
+            'dona' : '1',
+            'litr' : '2',
+            'm2' : '3'
+        }
+
+        currency = {0 : '1', 1 : '2'}
+
+        try:
+            rd = request.data
+
+            shop = Shop.objects.get(pk=rd['shop_id'])
+            
+            new_product = EProduct.objects.create(
+                shop=shop,
+                image1=request.FILES['image1'],
+                image2=request.FILES.get('image2', None),
+                image3=request.FILES.get('image3', None),
+                name=rd['name'],
+                category=Category.objects.get(name=rd['category'], shop=shop),
+                type=type[rd['type']],
+                currency=currency[shop.currency],
+                selling_price=rd['selling_price'],
+                barcode=rd['barcode']
+            )
+            # print(rd[])
+
+        except KeyError as e:
+            print(e)
+            response['status'] = 400
+        except Exception as e:
+            print(e)
+
+        return Response(response)
+
+    def delete(self, request):
+        pk = request.GET.get('id')
+        response = {
+            'status': 200,
+        }
+
+        try:
+            product: EProduct = EProduct.objects.get(pk=pk)
+
+            product.delete()
+
+            response['status'] = 200
+        except EProduct.DoesNotExist:
+            response['status'] = 404
+
+        return Response(response)
+
+    def put(self, request):
+        pk = request.GET.get('id')
+        response = {
+            'status': 200,
+        }
+
+        type = {
+            'dona' : '1',
+            'litr' : '2',
+            'm2' : '3'
+        }
+
+        currency = {"so'm" : '1', 'dollar' : '2'}
+
+
+        try:
+
+            rd = request.data
+
+            product: EProduct = EProduct.objects.get(pk=pk)
+            product.image1 = request.FILES['image1']
+            product.image2 = request.FILES.get('image2', None)
+            product.image3 = request.FILES.get('image3', None)
+            product.name = rd['name']
+            product.type = type[rd['type']],
+            product.selling_price = rd['selling_price']
+            product.save()
+        except EProduct.DoesNotExist:
+            response['status'] = 404
+        return Response(response)
+
+
 class UserAPIView(APIView):
     def get(self, request):
         pk = request.GET.get('id')

@@ -19,13 +19,19 @@ class Shop(models.Model):
     host = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Creator')
     admins = models.ManyToManyField(User, blank=True, related_name='Admins')
     members = models.ManyToManyField(User, blank=True, related_name='Members')
+    
+    type = models.CharField(choices=(
+            ('1', 'Do\'kon'),
+            ('2', 'Korxona')
+        ), max_length=200
+    )
 
     image = models.ImageField(upload_to='shop-images/%Y/')
     name = models.CharField(max_length=200)
     bio = models.TextField(max_length=1000)
 
     currency = models.IntegerField(default=0)
-    type = models.IntegerField(default=0)
+
 
     password = models.CharField(max_length=200)
 
@@ -41,6 +47,9 @@ class Shop(models.Model):
     @admin.display(description='Creator\'s first name')
     def ret_hos_fir(self):
         return self.host.first_name
+
+
+
 
 class Category(models.Model):
     name = models.CharField(max_length=300)
@@ -63,7 +72,7 @@ class Product(models.Model):
     count = models.IntegerField()
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-
+    selected = models.BooleanField(default=False)
     type = models.CharField(choices=(
             ('1', 'dona'),
             ('2', 'litr'),
@@ -75,7 +84,7 @@ class Product(models.Model):
             ('2', 'dollar'),
         ), max_length=200
     )
-
+    
     entry_price = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     percent = models.IntegerField()
@@ -90,6 +99,44 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+
+
+class EProduct(models.Model):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+
+    image1 = models.ImageField(upload_to='products-img/')
+    image2 = models.ImageField(upload_to='products-img/', null=True, blank=True)
+    image3 = models.ImageField(upload_to='products-img/', null=True, blank=True)
+
+    name = models.CharField(max_length=200)
+
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    type = models.CharField(choices=(
+            ('1', 'dona'),
+            ('2', 'litr'),
+            ('3', 'm2')
+        ), max_length=200
+    )
+    currency = models.CharField(choices=(
+            ('1', 'so\'m'),
+            ('2', 'dollar'),
+        ), max_length=200
+    )
+    
+
+    selling_price = models.IntegerField()
+
+    discount = models.IntegerField()
+    likes = models.ManyToManyField(User, related_name='elikes', blank=True)
+
+    barcode = models.CharField(max_length=100, default=00000000)
+
+    def __str__(self) -> str:
+        return self.name
+
 
 
 class Promocode(models.Model):

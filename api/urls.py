@@ -5,6 +5,7 @@ from api.function_based import *
 urlpatterns = [
     path('shop/', ShopAPIView.as_view()),
     path('product/', ProductAPIView.as_view()),
+    path('eproduct/', EProductAPIView.as_view()),
     path('user/', UserAPIView.as_view()),
     path('promocode/', PromocodeAPIView.as_view()),
 
@@ -22,3 +23,7 @@ urlpatterns = [
     path('add-admin/', shop_add_admin),
     path('report/', report),
 ]
+
+
+# shop ning pul birligi almashtirilsa o'sha shopning hamma mahsulotlarini pul birligi o'zgartirilsin
+ 

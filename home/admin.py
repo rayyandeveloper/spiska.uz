@@ -10,4 +10,5 @@ admin.site.register(Report)
 admin.site.register(Spiska)
 admin.site.register(Promocode)
 admin.site.register(Category)
+admin.site.register(EProduct)
 
