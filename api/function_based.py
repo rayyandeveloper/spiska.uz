@@ -75,6 +75,17 @@ def check_like(request):
     return Response({'status': 400})
 
 
+@api_view(['GET'])
+def check_barcode(request):
+    try:
+        product = Product.objects.get(barcode=int(request.GET.get('barcode')))
+        return Response({'status': 400})
+    except Product.DoesNotExist:
+        return Response({'status': 200})
+
+
+
+
 @api_view(['POST'])
 def change_owner(request):
     rd = request.data
@@ -148,8 +159,9 @@ def geo(request):
     min_distance = 10
 
     for i in Shop.objects.all():
-        if distance.distance((lat, long), (i.lat, i.lon)).km < min_distance:
-            response['data'].append(shop_serializer(i))
+        km = distance.distance((lat, long), (i.lat, i.lon)).km
+        if km < min_distance:
+            response['data'].append(shop_serializer(i, km))
 
     return Response(response)
 

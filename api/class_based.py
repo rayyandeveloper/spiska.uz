@@ -1,7 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from api import *
-from django.shortcuts import get_object_or_404
 from home.models import *
 from django.db.models import Q 
 

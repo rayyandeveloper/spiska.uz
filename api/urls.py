@@ -19,6 +19,7 @@ urlpatterns = [
     path('change-owner/', change_owner),
     path('like/', like),
     path('check-like/', check_like),
+    path('check-barcode/', check_barcode),
     path('add-member/', shop_add_member),
     path('add-admin/', shop_add_admin),
     path('report/', report),
