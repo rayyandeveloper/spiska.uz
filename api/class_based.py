@@ -165,9 +165,13 @@ class ProductAPIView(APIView):
             try:
                 obj = Product.objects.get(pk=pk)
 
-                response['data'] = [product_serializer(obj)]
+                barcode = obj.barcode
+                products_list = Product.objects.filter(barcode=barcode)
 
-            except Shop.DoesNotExist:
+
+                response['data'] = [special_product_serializer(products_list[0], products_list)]
+
+            except Product.DoesNotExist:
                 response['status'] = 400
         elif shop_id:
             response['data'] = [product_serializer(obj) for obj in Product.objects.filter(shop__id=shop_id)]
@@ -204,19 +208,20 @@ class ProductAPIView(APIView):
             rd = request.data
 
             shop = Shop.objects.get(pk=rd['shop_id'])
-            print('Shop currrensy',shop.currency)
-            
+
             new_product = Product.objects.create(
                 shop=shop,
                 image1=request.FILES['image1'],
                 image2=request.FILES.get('image2', None),
                 image3=request.FILES.get('image3', None),
-                description=rd['description'],
                 name=rd['name'],
+                description=rd['description'],
                 category=Category.objects.get(name=rd['category'], shop=shop),
                 type=type[rd['type']],
                 currency=currency[shop.currency],
+                price_in_dollar=float(str(int(rd['price']) / shop.dollar_currency)[:5]),
                 count=rd['count'],
+                dollar_currency=shop.dollar_currency,
                 company=rd['enterprise'],
                 entry_price=rd['entry_price'],
                 price=rd['price'],
@@ -224,7 +229,7 @@ class ProductAPIView(APIView):
                 selling_price=rd['selling_price'],
                 barcode=rd['barcode']
             )
-            # print(rd[])
+
 
         except KeyError as e:
             print(e)
@@ -281,8 +286,8 @@ class ProductAPIView(APIView):
             product.currency = currency[rd['currency']],
             product.entry_price = rd['entry_price']
             product.percent = rd['percent']
+            product.selected = rd['selected']
             product.selling_price = rd['selling_price']
-            product.company = rd['company']
 
             product.save()
         except Product.DoesNotExist:
@@ -353,13 +358,14 @@ class EProductAPIView(APIView):
                 image2=request.FILES.get('image2', None),
                 image3=request.FILES.get('image3', None),
                 name=rd['name'],
+                dollar_currency=shop.dollar_currency,
                 category=Category.objects.get(name=rd['category'], shop=shop),
                 type=type[rd['type']],
                 currency=currency[shop.currency],
                 selling_price=rd['selling_price'],
                 barcode=rd['barcode']
             )
-            # print(rd[])
+            
 
         except KeyError as e:
             print(e)

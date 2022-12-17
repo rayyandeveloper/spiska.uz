@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.db import models
 from accounts.models import User
 
+
+
 class Region(models.Model):
     name = models.CharField(max_length=200)
 
@@ -25,7 +27,9 @@ class Shop(models.Model):
             ('2', 'Korxona')
         ), max_length=200
     )
-
+    # input = models.
+    # output = 
+    dollar_currency = models.IntegerField()
     image = models.ImageField(upload_to='shop-images/%Y/')
     name = models.CharField(max_length=200)
     bio = models.TextField(max_length=1000)
@@ -70,7 +74,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=2000)
     count = models.IntegerField()
-
+    dollar_currency = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     selected = models.BooleanField(default=False)
     type = models.CharField(choices=(
@@ -84,9 +88,10 @@ class Product(models.Model):
             ('2', 'dollar'),
         ), max_length=200
     )
-    
+    discount_percentage = models.IntegerField(default=0)
     entry_price = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
+    price_in_dollar = models.FloatField(default=0)
     percent = models.IntegerField()
     selling_price = models.IntegerField()
     company = models.CharField(max_length=500)
@@ -94,7 +99,6 @@ class Product(models.Model):
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
     seens = models.ManyToManyField(User, related_name='seens', blank=True)
     
-
     barcode = models.CharField(max_length=100, default=00000000)
 
     def __str__(self) -> str:
@@ -111,7 +115,7 @@ class EProduct(models.Model):
     image3 = models.ImageField(upload_to='products-img/', null=True, blank=True)
 
     name = models.CharField(max_length=200)
-
+    dollar_currency = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     type = models.CharField(choices=(

@@ -79,9 +79,9 @@ def check_like(request):
 def check_barcode(request):
     try:
         product = Product.objects.get(barcode=int(request.GET.get('barcode')))
-        return Response({'status': 400})
+        return Response({'status': 200, 'data' : [product_serializer(product)]})
     except Product.DoesNotExist:
-        return Response({'status': 200})
+        return Response({'status': 400})
 
 
 
@@ -184,5 +184,44 @@ def diamond(request):
 
     return Response(response)
 
+@api_view(['POST'])
+def add_phone_number(request):
+    response = {
+        'status': 200,
+    }
+
+    try:
+        user_id = request.data.get('user-id')
+        phone = request.data.get('phone-number')
+
+        user = User.objects.get(pk=user_id)
+
+        user.phone.add(Phone.objects.create(phone=phone))
+
+        user.save()
+
+    except:
+        response['status'] = 400
+
+    return Response(response)
 
 
+@api_view(['PUT'])
+def update_dollar_currency(request):
+    response = {
+        'status': 200,
+    }
+
+    shop_id = request.data['shop-id']
+    dollar_currency = request.data['currency']
+
+    shop = Shop.objects.get(pk=shop_id)
+    shop.dollar_currency = dollar_currency
+    shop.save()
+
+    for i in Product.objects.filter(shop__id=shop.pk):
+        i.price = shop.dollar_currency * i.price_in_dollar
+        i.selling_price = shop.dollar_currency * ( i.price_in_dollar + (i.price_in_dollar * 100 / i.percent) )
+        i.save()
+
+    return Response(response)
