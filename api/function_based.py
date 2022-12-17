@@ -196,7 +196,7 @@ def add_phone_number(request):
 
         user = User.objects.get(pk=user_id)
 
-        user.phone.add(Phone.objects.create(phone=phone))
+        # user.phone.add(Phone.objects.create(phone=phone))
 
         user.save()
 
