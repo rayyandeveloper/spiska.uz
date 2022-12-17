@@ -57,7 +57,6 @@ class ShopAPIView(APIView):
             name = rd['name']
             desc = rd['description']
             password = rd['password']
-            dollar_currency = rd['dollar-currency'] 
             currency = rd['currency']
             type = rd['type']
             pk1 = int(rd['viloyat'])
@@ -83,7 +82,7 @@ class ShopAPIView(APIView):
                     name=name,
                     type=type,
                     currency=currency,
-                    dollar_currency=dollar_currency,
+                    dollar_currency=0,
                     bio=desc,
                     password=password,
                     viloyat=viloyat,
