@@ -6,6 +6,11 @@ from django.db.models import Q
 
 import random as r 
 
+def check_image(list1, i):
+    try:
+        return list1[i]
+    except:
+        return None
 
 
 
@@ -210,11 +215,16 @@ class ProductAPIView(APIView):
 
             shop = Shop.objects.get(pk=rd['shop_id'])
 
+            image1 = check_image(request.FILES['images'], 0)
+            image2 = check_image(request.FILES['images'], 1)
+            image3 = check_image(request.FILES['images'], 2)
+
+
             new_product = Product.objects.create(
                 shop=shop,
-                image1=request.FILES['image1'],
-                image2=request.FILES.get('image2', None),
-                image3=request.FILES.get('image3', None),
+                image1=image1,
+                image2=image2,
+                image3=image3,
                 name=rd['name'],
                 description=rd['description'],
                 category=Category.objects.get(name=rd['category'], shop=shop),
