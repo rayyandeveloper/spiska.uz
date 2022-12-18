@@ -100,11 +100,20 @@ class ShopAPIView(APIView):
                 host.diamond = host.diamond - 400
                 host.save()
 
-                for i in range(1, 16, 1):
-                    Category.objects.create(
-                        shop=new_shop,
-                        name=f"{i}-kategoriya"
-                    )
+                if new_shop.type == '2':
+                    sizes = ['1sm x 10sm', '10sm x 25sm', '25sm x 55sm', '55sm x 125sm', '125sm++']
+                    for i in range(0, 5, 1):
+                        Category.objects.create(
+                            shop=new_shop,
+                            name=sizes[i]
+                        )
+                else:
+                    for i in range(1, 16, 1):
+                        Category.objects.create(
+                            shop=new_shop,
+                            name=f"{i}-kategoriya"
+                        )
+
 
                 response['status'] = 200
         except Exception as e:
