@@ -363,11 +363,16 @@ class EProductAPIView(APIView):
 
             shop = Shop.objects.get(pk=rd['shop_id'])
             
+            image1 = check_image(request.FILES['images'], 0)
+            image2 = check_image(request.FILES['images'], 1)
+            image3 = check_image(request.FILES['images'], 2)
+
+
             new_product = EProduct.objects.create(
                 shop=shop,
-                image1=request.FILES['image1'],
-                image2=request.FILES.get('image2', None),
-                image3=request.FILES.get('image3', None),
+                image1=image1,
+                image2=image2,
+                image3=image3,
                 name=rd['name'],
                 dollar_currency=shop.dollar_currency,
                 category=Category.objects.get(name=rd['category'], shop=shop),
