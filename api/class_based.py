@@ -294,11 +294,11 @@ class ProductAPIView(APIView):
         try:
 
             rd = request.data
-
+    
             product: Product = Product.objects.get(pk=pk)
-            product.image1 = request.FILES['image1']
-            product.image2 = request.FILES.get('image2', None)
-            product.image3 = request.FILES.get('image3', None)
+            product.image1 = check_image(request.FILES['images'], 0)
+            product.image2 = check_image(request.FILES['images'], 1)
+            product.image3 = check_image(request.FILES['images'], 2)
             product.name = rd['name']
             product.description = rd['description']
             product.count = rd['count']
