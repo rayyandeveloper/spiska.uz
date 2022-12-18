@@ -14,8 +14,8 @@ def user_serializer(o: User):
         }
 
 
-# def product_serializer(o: Product):
-#     return {'id': o.id, 'shop_id': o.shop.id, 'images': [o.image1.url, o.image2.url if o.image2 else '', o.image3.url if o.image3 else '', ], 'name': o.name, 'description': o.description, 'count': o.count, 'money_type': o.currency, 'type': o.type, 'discount_percentage' : o.discount_percentage, 'entry_price': o.entry_price, 'price': o.price, 'percent': o.percent, 'dollar_currency' : o.dollar_currency, 'selling_price': o.selling_price, 'likes': [user_serializer(i) for i in o.likes.all()]}
+def product_serializer(o: Product):
+    return {'id': o.id, 'shop_id': o.shop.id, 'images': [o.image1.url, o.image2.url if o.image2 else '', o.image3.url if o.image3 else '', ], 'name': o.name, 'description': o.description, 'count': o.count, 'money_type': o.currency, 'type': o.type, 'discount_percentage' : o.discount_percentage, 'entry_price': o.entry_price, 'price': o.price, 'percent': o.percent, 'dollar_currency' : o.dollar_currency, 'selling_price': o.selling_price, 'likes': [user_serializer(i) for i in o.likes.all()]}
 
 def eproduct_serializer(o: EProduct):
     return {'id': o.pk, 'shop_id': o.shop.id, 'images': [o.image1.url, o.image2.url if o.image2 else '', o.image3.url if o.image3 else '', ], 'name': o.name, 'money_type': o.currency, 'type': o.type, 'selling_price': o.selling_price, 'dollar_currency' : o.dollar_currency, 'likes': [user_serializer(i) for i in o.likes.all()]}
@@ -28,7 +28,7 @@ def shop_serializer(shop: Shop, distance=None):
     return data 
 
 
-def product_serializer(o: Product, products_list: list):
+def special_product_serializer(o: Product, products_list: list):
     return {
         'id': o.id, 
         'ids' : [i.pk for i in products_list],
