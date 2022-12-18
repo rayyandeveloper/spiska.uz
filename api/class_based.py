@@ -181,10 +181,10 @@ class ProductAPIView(APIView):
             response['data'] = [product_serializer(obj) for obj in Product.objects.filter(Q(name__icontains=q) | Q(description__icontains=q) | Q(company__icontains=q))]
 
         elif region:
-            response['data'] = [product_serializer(obj) for obj in Product.objects.filter(shop__region__id=region)]
+            response['data'] = [product_serializer(obj) for obj in Product.objects.filter(shop__viloyat__id=region)]
             
         elif region and district:
-            response['data'] = [product_serializer(obj) for obj in Product.objects.filter(Q(shop__region__id=region) | Q(shop__district__id=region))]
+            response['data'] = [product_serializer(obj) for obj in Product.objects.filter(Q(shop__viloyat__id=region) | Q(shop__tuman__id=district))]
             
         else: 
             response['data'] = [product_serializer(obj) for obj in Product.objects.all()]
