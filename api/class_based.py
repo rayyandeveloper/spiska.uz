@@ -193,6 +193,9 @@ class ProductAPIView(APIView):
 
         elif q:
             response['data'] = [product_serializer(obj) for obj in Product.objects.filter(Q(name__icontains=q) | Q(description__icontains=q) | Q(company__icontains=q))]
+        
+        elif q and shop_id:
+            response['data'] = [product_serializer(obj) for obj in Product.objects.filter(Q(name__icontains=q, shop__id=shop_id) | Q(description__icontains=q, shop__id=shop_id) | Q(barcode__icontains=int(q), shop__id=shop_id))]
 
         elif region:
             response['data'] = [product_serializer(obj) for obj in Product.objects.filter(shop__viloyat__id=region)]
@@ -224,7 +227,7 @@ class ProductAPIView(APIView):
 
             shop = Shop.objects.get(pk=rd['shop_id'])
 
-            image1 = check_image(request.FILES['images'], 0)
+            image1 = request.FILES['images']
             image2 = check_image(request.FILES['images'], 1)
             image3 = check_image(request.FILES['images'], 2)
 
@@ -574,7 +577,7 @@ class PromocodeAPIView(APIView):
             }
         try:
             shop = Shop.objects.get(pk=request.data.get('shop-id'))
-            percent = request.data.get('percent')
+            
 
             
             code = f'{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}{CHARS[r.randint(1, 26)]}'
@@ -584,12 +587,10 @@ class PromocodeAPIView(APIView):
             
             new_promocode = Promocode.objects.create(
                 shop=shop,
-                percent=percent,
                 code=code
             )
 
-            for i in request.data.get('products'):
-                new_promocode.products.add(Product.objects.get(pk=i))
+            response['data'] = promocode_serializer
 
         except Exception as e:
             print(e)
@@ -607,4 +608,11 @@ class PromocodeAPIView(APIView):
             except:
                 return Response({'status' : 400})
         return Response({'status' : 400})
+
+
+
+    def put(self, request):
+        pass
+
+
 

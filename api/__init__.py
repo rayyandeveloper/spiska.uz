@@ -52,6 +52,18 @@ def special_product_serializer(o: Product, products_list: list):
     }
 
 
+def promocode_serializer(o: Promocode):
+    return {
+        'id' : o.pk,
+        'shop-id' : o.shop.id,
+        'rows' : [{
+            'product-name' : i.product.name,
+            'product-percent' : i.product.percent,
+            'percent' : i.percent,
+            'percent-for-debtor' : i.percent_for_debtor,
+        } for i in o.rows.all()]
+    }
+
 
 def check_promocode(code):
     for i in Promocode.objects.all():

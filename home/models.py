@@ -142,12 +142,17 @@ class EProduct(models.Model):
         return self.name
 
 
+class Promocode_Row(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    percent = models.IntegerField(default=0)
+    percent_for_debtor = models.IntegerField(default=0)
+
 
 class Promocode(models.Model):
     code = models.CharField(max_length=6)
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, blank=True)
-    percent = models.IntegerField()
+    rows = models.ManyToManyField(Promocode_Row, blank=True)
+    
 
     def __str__(self) -> str:
         return f'{self.code} *** {self.shop.name}'
