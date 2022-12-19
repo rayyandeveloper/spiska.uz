@@ -232,6 +232,7 @@ class ProductAPIView(APIView):
             image3 = check_image(request.FILES['images'], 2)
 
 
+            print(len(request.FILES['images']))
             new_product = Product.objects.create(
                 shop=shop,
                 image1=image1,
